@@ -19,7 +19,7 @@ func AllOrpheusTools(g *genkit.Genkit) []ai.Tool {
 		StreamableHTTP: &mcp.StreamableHTTPConfig{
 			BaseURL: "https://api.githubcopilot.com/mcp/",
 			Headers: map[string]string{
-				"Authorization": "Bearer "+os.Getenv("GITHUB"),
+				"Authorization": "Bearer " + os.Getenv("GITHUB"),
 			},
 		},
 	})
@@ -40,6 +40,7 @@ func AllOrpheusTools(g *genkit.Genkit) []ai.Tool {
 			Command string `json:"command"`
 		}) (string, error) {
 			// Split the command string into parts
+			fmt.Println(input.Command)
 			parts := strings.Fields(input.Command)
 			if len(parts) == 0 {
 				return "", fmt.Errorf("empty gcloud command")

@@ -10,12 +10,18 @@ import (
 
 	"github.com/firebase/genkit/go/genkit"
 	"github.com/firebase/genkit/go/plugins/googlegenai"
+	"github.com/joho/godotenv"
 
 	"github.com/firebase/genkit/go/ai"
 )
 
 func main() {
 	ctx := context.Background()
+
+	// Load environment variables from .env file
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Warning: Failed to load .env file: %v", err)
+	}
 
 	g, err := genkit.Init(ctx,
 		genkit.WithPlugins(
