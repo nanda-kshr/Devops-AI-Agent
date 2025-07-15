@@ -97,32 +97,25 @@ add_header X-XSS-Protection \"1; mode=block\";`
 
 	// 6. Write new site config
 	siteConf := fmt.Sprintf(`server {
-    listen 80;
-    listen [::]:80;
-    server_name %s www.%s.com;
-    root /var/www/%s.com/html;
-    index index.html index.htm index.nginx-debian.html;
-    return 200 'hello world';
+	listen 80;
+	listen [::]:80;
+	server_name %s www.%s;
+	return 302 https://$server_name$request_uri;
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    include snippets/self-signed.conf;
-    include snippets/ssl-params.conf;
-    server_name %s.com www.%s.com;
-    root /var/www/%s.com/html;
-    index index.html index.htm index.nginx-debian.html;
-    # ...
+	listen 443 ssl;
+	listen [::]:443 ssl;
+	include snippets/self-signed.conf;
+	include snippets/ssl-params.conf;
+	server_name %s www.%s;
+	
+	location / {
+		return 200 'hello world';
+		add_header Content-Type text/plain;
+	}
 }
-
-server {
-    listen 80;
-    listen [::]:80;
-    server_name %s.com www.%s.com;
-    return 302 https://$server_name$request_uri;
-}
-`, domain, domain, domain, domain, domain, domain, domain, domain)
+`, domain, domain, domain, domain)
 	fmt.Println("\nWriting /etc/nginx/sites-available/" + domain + "...")
 	if err := runCmd("sudo", "bash", "-c", fmt.Sprintf("echo '%s' > /etc/nginx/sites-available/%s", siteConf, domain)); err != nil {
 		fmt.Println("Error writing site config:", err)
