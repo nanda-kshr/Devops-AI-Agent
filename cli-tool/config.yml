@@ -1,6 +1,6 @@
 DevopsConfig:
   Github:
-    Repository: "Meheer17/TS"
+    Repository: "nanda-kshr/instaroid"
     Path: "/path/to/your/file"
     Environment:
       Production:
@@ -18,6 +18,7 @@ DevopsConfig:
 
   Cloud:
     GCP:
+      USER: "nandakishorep"
       Zone: "asia-south1-a"
       Region: "asia-south1"
       Compute-Type: "e2-micro"

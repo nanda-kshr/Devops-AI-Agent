@@ -1,6 +1,8 @@
 module devops
 
-go 1.19
+go 1.24.1
+
+toolchain go1.24.5
 
 require (
 	github.com/firebase/genkit/go v0.6.2
