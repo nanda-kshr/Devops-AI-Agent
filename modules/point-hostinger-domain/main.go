@@ -1,3 +1,5 @@
+// To install dependencies, run:
+// go get github.com/joho/godotenv
 package main
 
 import (
@@ -6,12 +8,22 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Ensure dependency is installed
+	cmd := exec.Command("go", "get", "github.com/joho/godotenv")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		fmt.Println("Failed to install dependency github.com/joho/godotenv:", err)
+		return
+	}
+
 	// Load .env file
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -68,4 +80,4 @@ func main() {
 
 	fmt.Println("Status:", res.Status)
 	fmt.Println("Response:", string(body))
-} 
+}

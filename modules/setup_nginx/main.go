@@ -1,23 +1,12 @@
 package main
 
 import (
-	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
 	"strings"
 )
-
-func prompt(label, def string) string {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("%s [%s]:", label, def)
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
-	if input == "" {
-		return def
-	}
-	return input
-}
 
 func runCmd(cmdStr string, args ...string) error {
 	cmd := exec.Command(cmdStr, args...)
@@ -27,46 +16,42 @@ func runCmd(cmdStr string, args ...string) error {
 	return cmd.Run()
 }
 
-func writeFile(path, content string) error {
-	f, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	_, err = f.WriteString(content)
-	return err
-}
-
 func main() {
-	fmt.Println("Output")
-	country := prompt("Country Name (2 letter code)", "AU")
-	state := prompt("State or Province Name (full name)", "Some-State")
-	city := prompt("Locality Name (eg, city)", "")
-	org := prompt("Organization Name (eg, company)", "Internet Widgits Pty Ltd")
-	unit := prompt("Organizational Unit Name (eg, section)", "")
-	common := prompt("Common Name (e.g. server FQDN or YOUR name)", "")
-	email := prompt("Email Address", "")
+	country := flag.String("country", "AU", "Country Name (2 letter code)")
+	state := flag.String("state", "Some-State", "State or Province Name (full name)")
+	city := flag.String("city", "", "Locality Name (eg, city)")
+	org := flag.String("org", "Internet Widgits Pty Ltd", "Organization Name (eg, company)")
+	unit := flag.String("unit", "", "Organizational Unit Name (eg, section)")
+	common := flag.String("common", "", "Common Name (e.g. server FQDN or YOUR name)")
+	email := flag.String("email", "", "Email Address")
+	flag.Parse()
+
+	if *common == "" {
+		fmt.Println("Error: --common is required (e.g. server FQDN or YOUR name)")
+		flag.Usage()
+		os.Exit(1)
+	}
 
 	// 1. openssl req
-	// opensslArgs := []string{
-	// 	"req", "-x509", "-nodes", "-days", "365", "-newkey", "rsa:2048",
-	// 	"-keyout", "/etc/ssl/private/nginx-selfsigned.key",
-	// 	"-out", "/etc/ssl/certs/nginx-selfsigned.crt",
-	// 	"-subj",
-	// 	fmt.Sprintf("/C=%s/ST=%s/L=%s/O=%s/OU=%s/CN=%s/emailAddress=%s", country, state, city, org, unit, common, email),
-	// }
-	// fmt.Println("\nRunning openssl req...")
-	// if err := runCmd("sudo", append([]string{"openssl"}, opensslArgs...)...); err != nil {
-	// 	fmt.Println("Error running openssl req:", err)
-	// 	return
-	// }
+	opensslArgs := []string{
+		"req", "-x509", "-nodes", "-days", "365", "-newkey", "rsa:2048",
+		"-keyout", "/etc/ssl/private/nginx-selfsigned.key",
+		"-out", "/etc/ssl/certs/nginx-selfsigned.crt",
+		"-subj",
+		fmt.Sprintf("/C=%s/ST=%s/L=%s/O=%s/OU=%s/CN=%s/emailAddress=%s", *country, *state, *city, *org, *unit, *common, *email),
+	}
+	fmt.Println("\nRunning openssl req...")
+	if err := runCmd("sudo", append([]string{"openssl"}, opensslArgs...)...); err != nil {
+		fmt.Println("Error running openssl req:", err)
+		return
+	}
 
-	// // 2. openssl dhparam
-	// fmt.Println("\nGenerating dhparam...")
-	// if err := runCmd("sudo", "openssl", "dhparam", "-out", "/etc/nginx/dhparam.pem", "4096"); err != nil {
-	// 	fmt.Println("Error running openssl dhparam:", err)
-	// 	return
-	// }
+	// 2. openssl dhparam
+	fmt.Println("\nGenerating dhparam...")
+	if err := runCmd("sudo", "openssl", "dhparam", "-dsaparam", "-out", "/etc/nginx/dhparam.pem", "4096"); err != nil {
+		fmt.Println("Error running openssl dhparam:", err)
+		return
+	}
 
 	// 3. Write self-signed.conf
 	selfSignedConf := `ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
@@ -103,7 +88,7 @@ add_header X-XSS-Protection \"1; mode=block\";`
 	}
 
 	// 5. Backup site config
-	domain := strings.Split(common, ":")[0] // crude way to get domain from CN
+	domain := strings.Split(*common, ":")[0]
 	if domain == "" {
 		domain = "your_domain"
 	}
@@ -112,32 +97,25 @@ add_header X-XSS-Protection \"1; mode=block\";`
 
 	// 6. Write new site config
 	siteConf := fmt.Sprintf(`server {
-    listen 80;
-    listen [::]:80;
-    server_name %s www.%s.com;
-    root /var/www/%s.com/html;
-    index index.html index.htm index.nginx-debian.html;
-    return 200 'hello world';
+	listen 80;
+	listen [::]:80;
+	server_name %s www.%s;
+	return 302 https://$server_name$request_uri;
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    include snippets/self-signed.conf;
-    include snippets/ssl-params.conf;
-    server_name %s.com www.%s.com;
-    root /var/www/%s.com/html;
-    index index.html index.htm index.nginx-debian.html;
-    # ...
+	listen 443 ssl;
+	listen [::]:443 ssl;
+	include snippets/self-signed.conf;
+	include snippets/ssl-params.conf;
+	server_name %s www.%s;
+	
+	location / {
+		return 200 'hello world';
+		add_header Content-Type text/plain;
+	}
 }
-
-server {
-    listen 80;
-    listen [::]:80;
-    server_name %s.com www.%s.com;
-    return 302 https://$server_name$request_uri;
-}
-`, domain, domain, domain, domain, domain, domain, domain, domain)
+`, domain, domain, domain, domain)
 	fmt.Println("\nWriting /etc/nginx/sites-available/" + domain + "...")
 	if err := runCmd("sudo", "bash", "-c", fmt.Sprintf("echo '%s' > /etc/nginx/sites-available/%s", siteConf, domain)); err != nil {
 		fmt.Println("Error writing site config:", err)
