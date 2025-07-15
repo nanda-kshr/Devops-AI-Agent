@@ -48,25 +48,25 @@ func main() {
 	email := prompt("Email Address", "")
 
 	// 1. openssl req
-	opensslArgs := []string{
-		"req", "-x509", "-nodes", "-days", "365", "-newkey", "rsa:2048",
-		"-keyout", "/etc/ssl/private/nginx-selfsigned.key",
-		"-out", "/etc/ssl/certs/nginx-selfsigned.crt",
-		"-subj",
-		fmt.Sprintf("/C=%s/ST=%s/L=%s/O=%s/OU=%s/CN=%s/emailAddress=%s", country, state, city, org, unit, common, email),
-	}
-	fmt.Println("\nRunning openssl req...")
-	if err := runCmd("sudo", append([]string{"openssl"}, opensslArgs...)...); err != nil {
-		fmt.Println("Error running openssl req:", err)
-		return
-	}
+	// opensslArgs := []string{
+	// 	"req", "-x509", "-nodes", "-days", "365", "-newkey", "rsa:2048",
+	// 	"-keyout", "/etc/ssl/private/nginx-selfsigned.key",
+	// 	"-out", "/etc/ssl/certs/nginx-selfsigned.crt",
+	// 	"-subj",
+	// 	fmt.Sprintf("/C=%s/ST=%s/L=%s/O=%s/OU=%s/CN=%s/emailAddress=%s", country, state, city, org, unit, common, email),
+	// }
+	// fmt.Println("\nRunning openssl req...")
+	// if err := runCmd("sudo", append([]string{"openssl"}, opensslArgs...)...); err != nil {
+	// 	fmt.Println("Error running openssl req:", err)
+	// 	return
+	// }
 
-	// 2. openssl dhparam
-	fmt.Println("\nGenerating dhparam...")
-	if err := runCmd("sudo", "openssl", "dhparam", "-out", "/etc/nginx/dhparam.pem", "4096"); err != nil {
-		fmt.Println("Error running openssl dhparam:", err)
-		return
-	}
+	// // 2. openssl dhparam
+	// fmt.Println("\nGenerating dhparam...")
+	// if err := runCmd("sudo", "openssl", "dhparam", "-out", "/etc/nginx/dhparam.pem", "4096"); err != nil {
+	// 	fmt.Println("Error running openssl dhparam:", err)
+	// 	return
+	// }
 
 	// 3. Write self-signed.conf
 	selfSignedConf := `ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
