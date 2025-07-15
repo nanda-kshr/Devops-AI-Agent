@@ -111,8 +111,11 @@ server {
 	server_name %s www.%s;
 	
 	location / {
-		return 200;
-		add_header Content-Type text/plain;
+		proxy_pass http://localhost:4339;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
 	}
 }
 `, domain, domain, domain, domain)
@@ -121,6 +124,8 @@ server {
 		fmt.Println("Error writing site config:", err)
 		return
 	}
+
+	runCmd("sudo", "cp", "/etc/nginx/sites-available/"+domain, "/etc/nginx/sites-enabled/")
 
 	// 7. UFW allow Nginx Full
 	fmt.Println("\nAllowing Nginx Full in UFW...")
