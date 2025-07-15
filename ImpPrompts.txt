@@ -1,0 +1,7 @@
+1) Analyze the GitHub repository 'nanda-kshr/instaroid' including all source files, dependencies, and requirements. Based on your analysis, create an optimized Dockerfile that:
+    - Uses appropriate base image for the project's technology stack
+    - Installs all necessary dependencies
+    - Configures the runtime environment
+    - Follows Docker best practices (multi-stage builds, layer optimization, security)
+    - Includes proper WORKDIR, COPY, and CMD instructions
+    - Handles any build-time requirements or environment variables
