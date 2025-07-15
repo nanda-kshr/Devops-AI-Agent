@@ -80,7 +80,7 @@ resolver_timeout 5s;
 #add_header Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\";
 add_header X-Frame-Options DENY;
 add_header X-Content-Type-Options nosniff;
-add_header X-XSS-Protection \"1; mode=block\";`
+add_header X-XSS-Protection "1; mode=block";`
 	fmt.Println("\nWriting /etc/nginx/snippets/ssl-params.conf...")
 	if err := runCmd("sudo", "bash", "-c", fmt.Sprintf("echo '%s' > /etc/nginx/snippets/ssl-params.conf", sslParamsConf)); err != nil {
 		fmt.Println("Error writing ssl-params.conf:", err)
@@ -111,7 +111,7 @@ server {
 	server_name %s www.%s;
 	
 	location / {
-		return 200 'hello world';
+		return 200;
 		add_header Content-Type text/plain;
 	}
 }
