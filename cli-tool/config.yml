@@ -1,7 +1,6 @@
 DevopsConfig:
   Github:
-    Token: "<your_github_token>"
-    Repository: "your_org/your_repo"
+    Repository: "Meheer17/TS"
     Path: "/path/to/your/file"
     Environment:
       Production:
@@ -17,17 +16,14 @@ DevopsConfig:
       PreProduction:
         Branch: "pre-production"
 
-  DockerHub:
-    Username: "<your_dockerhub_username>"
-    Password: "<your_dockerhub_password>"
-    Registry: "docker.io"
-
   Cloud:
     GCP:
-      Key: "<your_gcp_service_account_key_json_or_token>"
-    Terraform:
-      Path: "/path/to/terraform/files"
-
+      Zone: "asia-south1-a"
+      Region: "asia-south1"
+      Compute-Type: "e2-micro"
+      Name: "mahi"
+      SSH-Private: "./mahiasd"
+      SSH-PUBLIC: "./mahiasd.pub"
   Tools:
     Docker: true
     Kubernetes: true
@@ -37,3 +33,6 @@ DevopsConfig:
     Nginx: true
     Prometheus: true
     Grafana: true
+
+  Explanation:
+    Explanation: "This is a Nextjs website and dockerized application"
