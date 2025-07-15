@@ -1,0 +1,39 @@
+DevopsConfig:
+  Github:
+    Token: "<your_github_token>"
+    Repository: "your_org/your_repo"
+    Path: "/path/to/your/file"
+    Environment:
+      Production:
+        Branch: "main"
+      Staging:
+        Branch: "staging"
+      Development:
+        Branch: "development"
+      Test:
+        Branch: "test"
+      QA:
+        Branch: "qa"
+      PreProduction:
+        Branch: "pre-production"
+
+  DockerHub:
+    Username: "<your_dockerhub_username>"
+    Password: "<your_dockerhub_password>"
+    Registry: "docker.io"
+
+  Cloud:
+    GCP:
+      Key: "<your_gcp_service_account_key_json_or_token>"
+    Terraform:
+      Path: "/path/to/terraform/files"
+
+  Tools:
+    Docker: true
+    Kubernetes: true
+    Instances: true
+    Monitoring: true
+    Logging: true
+    Nginx: true
+    Prometheus: true
+    Grafana: true
