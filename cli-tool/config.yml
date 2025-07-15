@@ -18,12 +18,12 @@ DevopsConfig:
 
   Cloud:
     GCP:
-      ProjectID: "arty-facets"
-      Zone: "ap-south1-a"
-      Region: "ap-south1"
+      Zone: "asia-south1-a"
+      Region: "asia-south1"
       Compute-Type: "e2-micro"
-      Name: "Mahi"
-
+      Name: "mahi"
+      SSH-Private: "./mahiasd"
+      SSH-PUBLIC: "./mahiasd.pub"
   Tools:
     Docker: true
     Kubernetes: true
@@ -33,3 +33,6 @@ DevopsConfig:
     Nginx: true
     Prometheus: true
     Grafana: true
+
+  Explanation:
+    Explanation: "This is a Nextjs website and dockerized application"

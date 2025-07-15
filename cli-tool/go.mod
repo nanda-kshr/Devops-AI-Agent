@@ -1,6 +1,6 @@
 module devops
 
-go 1.24.3
+go 1.23
 
 require (
 	github.com/firebase/genkit/go v0.6.2

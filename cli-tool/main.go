@@ -18,6 +18,12 @@ import (
 func main() {
 	ctx := context.Background()
 
+	configBytes, err := os.ReadFile("./config.yml")
+	if err != nil {
+		log.Fatalf("Failed to read config file: %v", err)
+	}
+	configContent := string(configBytes)
+
 	// Load environment variables from .env file
 	if err := godotenv.Load(); err != nil {
 		log.Printf("Warning: Failed to load .env file: %v", err)
@@ -47,6 +53,7 @@ func main() {
 
 CAPABILITIES:
 - Master-level expertise with Docker, Kubernetes, Terraform, Ansible, Jenkins, and CI/CD pipelines
+- READ the config file understand what do they want to do and execute it
 - Advanced monitoring and observability with Grafana, Prometheus, ELK stack, and Datadog
 - Complete command of GCP services including GKE, Cloud Run, Cloud Functions, and Cloud Build
 - Expert at GitHub operations, repositories, workflows, actions, and integrations
@@ -56,6 +63,8 @@ CAPABILITIES:
 - Infrastructure as Code (IaC) implementation and optimization
 - Ability to debug complex system issues and performance bottlenecks
 - Execute Git commands, GitHub API operations, and gcloud CLI commands with precision
+- Yoou have to ask what the user wants to do, If the user wants to create a vm and stuff take care of it, make the vm, 
+- connect to it and do everything to get ssh and load the codes into it and so on 
 
 AVAILABLE TOOLS:
 `
@@ -78,7 +87,9 @@ GUIDELINES:
 - If user input is required to proceed, provide specific guidance on what's needed
 - You're not just an assistant - you're the ultimate DevOps problem solver with system-level access
 
-`
+Config File:
+` + configContent
+
 
 	// Start a forever loop to listen for terminal input
 	println("Enter prompts (type END to exit):")
@@ -118,7 +129,7 @@ GUIDELINES:
 		})
 
 		resp, err := genkit.Generate(ctx, g,
-			ai.WithSystem(systemPrompt),
+			ai.WithSystem(systemPrompt+"\n\nConfig File:\n"+configContent),
 			ai.WithMessages(messages...),
 			ai.WithTools(tools[0]),
 		)

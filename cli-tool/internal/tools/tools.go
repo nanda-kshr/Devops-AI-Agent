@@ -23,7 +23,7 @@ func AllOrpheusTools(g *genkit.Genkit) []ai.Tool {
 			},
 		},
 	})
-	
+
 	if err != nil {
 		// Return empty slice if there's an error
 		return []ai.Tool{}
@@ -70,6 +70,7 @@ func AllOrpheusTools(g *genkit.Genkit) []ai.Tool {
 		func(ctx *ai.ToolContext, input struct {
 			Command string `json:"command"`
 		}) (string, error) {
+			fmt.Println(input.Command)
 			// Split the command string into parts
 			parts := strings.Fields(input.Command)
 			if len(parts) == 0 {
