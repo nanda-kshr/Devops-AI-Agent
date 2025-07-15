@@ -48,7 +48,7 @@ func main() {
 
 	// 2. openssl dhparam
 	fmt.Println("\nGenerating dhparam...")
-	if err := runCmd("sudo", "openssl", "dhparam", "-out", "/etc/nginx/dhparam.pem", "4096"); err != nil {
+	if err := runCmd("sudo", "openssl", "dhparam", "-dsaparam", "-out", "/etc/nginx/dhparam.pem", "4096"); err != nil {
 		fmt.Println("Error running openssl dhparam:", err)
 		return
 	}
