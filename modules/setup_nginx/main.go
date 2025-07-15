@@ -90,7 +90,7 @@ add_header X-XSS-Protection "1; mode=block";`
 	// 5. Backup site config
 	domain := strings.Split(*common, ":")[0]
 	if domain == "" {
-		domain = "your_domain"
+		domain = "default"
 	}
 	fmt.Println("\nBacking up /etc/nginx/sites-available/" + domain + "...")
 	runCmd("sudo", "cp", "/etc/nginx/sites-available/"+domain, "/etc/nginx/sites-available/"+domain+".bak")
