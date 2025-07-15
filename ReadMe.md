@@ -5,7 +5,7 @@
 This project is a fully autonomous DevOps agent built using Go, Genkit, and MCP (Multi-Agent Collaboration Protocol) designed to revolutionize the software delivery lifecycle. It addresses the critical challenges faced by development teams today: complex deployment pipelines, inconsistent environments, and the DevOps talent shortage. By automating the entire DevOps lifecycle—from code review and testing to infrastructure provisioning and production deployment—based on a single prompt or configuration,  it enables teams to ship high-quality software faster and with fewer resources.
 
 The primary motivation behind this project is to democratize DevOps expertise, making enterprise-grade deployment practices accessible to teams of all sizes and technical backgrounds. By codifying DevOps best practices into an intelligent agent system, we eliminate the need for specialized expertise while maintaining (or improving) the quality of deployments. 
-
+ 
 The system leverages Genkit for AI-based decisions (e.g., code review, security analysis, Terraform generation), and orchestrates a series of specialized agents through MCP to complete tasks such as CI/CD, monitoring setup, and reverse proxy configuration. This multi-agent approach ensures each component is optimized for its specific task while maintaining seamless communication through the MCP protocol.
 
 ## Key Features
