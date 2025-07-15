@@ -65,7 +65,8 @@ CAPABILITIES:
 - Execute Git commands, GitHub API operations, and gcloud CLI commands with precision
 - Yoou have to ask what the user wants to do, If the user wants to create a vm and stuff take care of it, make the vm, 
 - connect to it and do everything to get ssh and load the codes into it and so on 
-
+- Based on the config file and the description of the software if the user wants a dockercontainer or file you have generate and store it on the repo via the github mcp!
+- If the user wants a workflow file then you have to build the whole workflow file and store it in the repo via the github mcp! and also if you want additional information you can ask the user to give tohse details and so on!
 AVAILABLE TOOLS:
 `
 	// Add all tool names and descriptions to the system prompt

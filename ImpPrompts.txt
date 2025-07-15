@@ -12,6 +12,6 @@ Use the already-configured SERVICE_ACCOUNT GitHub secret to authenticate with Go
 Use two additional secrets: YOUR_GCP_PROJECT_ID and YOUR_GCP_ZONE for the GCP project ID and zone, respectively.
 Assume the Google Cloud instance named heavy-server is already running — do not include logic to start it.
 SSH into the instance with gcp user and run all required Docker commands (delete existing image, pull latest image, stop and remove running container, and run a new container) in a single-line command string to avoid multi-line errors with gcloud compute ssh.
-When running the new Docker container, bind the container to a random port between 3000 and 5000 as common ports might already being used, reduce the chance of getting a port which is already binded.
+When running the new Docker container, bind the container to port 3000.
 
 **Remember** all are in secrets
