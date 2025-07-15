@@ -11,6 +11,10 @@ func main() {
 		{"sudo", "apt", "install", "golang-go", "-y"},
 		{"sudo", "apt", "install", "nginx", "-y"},
 	}
+	var gitCloneURL string
+	fmt.Print("Enter the git clone URL: ")
+	fmt.Scanln(&gitCloneURL)
+	commands = append(commands, []string{"git", "clone", gitCloneURL})
 
 	for _, cmdArgs := range commands {
 		cmd := exec.Command(cmdArgs[0], cmdArgs[1:]...)
