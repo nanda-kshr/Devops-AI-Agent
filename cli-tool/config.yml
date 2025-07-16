@@ -17,13 +17,13 @@ DevopsConfig:
 
   Cloud:
     GCP:
-      USER: "nandakishorep"
+      USER-IP: "nandakishorep@34.68.242.20"
+      KEYFILE: "~/.ssh/id_ed25519"
       Zone: "asia-south1-a"
       Region: "asia-south1"
       Compute-Type: "e2-micro"
       Name: "mahi"
-      SSH-Private: "./mahiasd"
-      SSH-PUBLIC: "./mahiasd.pub"
+
   Tools:
     Docker: true
     Kubernetes: true
