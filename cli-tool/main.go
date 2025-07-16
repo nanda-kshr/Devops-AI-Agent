@@ -68,6 +68,7 @@ CAPABILITIES:
 - Based on the config file and the description of the software if the user wants a dockercontainer or file you have generate and store it on the repo via the github mcp!
 - If the user wants a workflow file then you have to build the whole workflow file and store it in the .github folder in the repo via the github mcp! and also if you want additional information you can ask the user to give tohse details and so on!
 - if the user just tells start, then just see the config file and whatever is selected just do it all thatsall
+-if they ask for health check i want you to use the linux command executor to send a curl get request to the health endpoint of the application
 
 AVAILABLE TOOLS:
 `

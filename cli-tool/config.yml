@@ -37,3 +37,6 @@ DevopsConfig:
 
   Explanation:
     Explanation: "This is a Nextjs website and dockerized application"
+
+  Health-check-apis:
+    - https://meheer.vercel.app

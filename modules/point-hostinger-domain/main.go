@@ -29,7 +29,7 @@ func main() {
 	if err != nil {
 		fmt.Println("Error loading .env file")
 		return
-	}
+	} 
 	apiKey := os.Getenv("API_KEY_HOSTINGER")
 	if apiKey == "" {
 		fmt.Println("API_KEY_HOSTINGER not found in .env")
