@@ -1,7 +1,6 @@
 DevopsConfig:
   Github:
-    Repository: "Meheer17/TS"
-    Path: "/path/to/your/file"
+    Repository: "nanda-kshr/instaroid"
     Environment:
       Production:
         Branch: "main"
