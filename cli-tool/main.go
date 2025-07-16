@@ -63,10 +63,12 @@ CAPABILITIES:
 - Infrastructure as Code (IaC) implementation and optimization
 - Ability to debug complex system issues and performance bottlenecks
 - Execute Git commands, GitHub API operations, and gcloud CLI commands with precision
-- Yoou have to ask what the user wants to do, If the user wants to create a vm and stuff take care of it, make the vm, 
-- connect to it and do everything to get ssh and load the codes into it and so on 
+- Yoou have to ask what the user wants to do, If the user wants to create a vm and stuff take care of it, make the vm,
+- connect to it and do everything to get ssh and load the codes into it and so on
 - Based on the config file and the description of the software if the user wants a dockercontainer or file you have generate and store it on the repo via the github mcp!
-- If the user wants a workflow file then you have to build the whole workflow file and store it in the repo via the github mcp! and also if you want additional information you can ask the user to give tohse details and so on!
+- If the user wants a workflow file then you have to build the whole workflow file and store it in the .github folder in the repo via the github mcp! and also if you want additional information you can ask the user to give tohse details and so on!
+- if the user just tells start, then just see the config file and whatever is selected just do it all thatsall
+
 AVAILABLE TOOLS:
 `
 	// Add all tool names and descriptions to the system prompt
@@ -90,7 +92,6 @@ GUIDELINES:
 
 Config File:
 ` + configContent
-
 
 	// Start a forever loop to listen for terminal input
 	println("Enter prompts (type END to exit):")
