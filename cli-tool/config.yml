@@ -1,7 +1,6 @@
 DevopsConfig:
   Github:
     Repository: "nanda-kshr/instaroid"
-    Path: "/path/to/your/file"
     Environment:
       Production:
         Branch: "main"
